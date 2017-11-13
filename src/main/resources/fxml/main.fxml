@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.ipolynkina.converter.controllers.MainController">
+   <children>
+      <AnchorPane prefHeight="35.0" prefWidth="30.0">
+         <children>
+            <Label layoutX="20.0" layoutY="6.0" prefHeight="35.0" prefWidth="300.0" text="Язык" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="0.0" />
+            <ComboBox layoutX="450.0" prefHeight="35.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children>
+         <VBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </VBox.margin>
+      </AnchorPane>
+      <AnchorPane prefHeight="35.0" prefWidth="30.0">
+         <children>
+            <Label prefHeight="35.0" prefWidth="300.0" text="Формат входного файла" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="0.0" />
+            <ComboBox layoutX="450.0" prefHeight="35.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children>
+         <VBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </VBox.margin>
+      </AnchorPane>
+      <AnchorPane prefHeight="35.0" prefWidth="30.0">
+         <children>
+            <Label layoutY="6.0" prefHeight="35.0" prefWidth="300.0" text="Формат выходного файла" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="0.0" />
+            <ComboBox layoutX="450.0" prefHeight="35.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children>
+         <VBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </VBox.margin>
+      </AnchorPane>
+      <AnchorPane prefHeight="35.0" prefWidth="30.0">
+         <children>
+            <Label layoutX="10.0" layoutY="6.0" prefHeight="35.0" prefWidth="300.0" text="файл не выбран" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="0.0" />
+            <Button layoutX="322.0" layoutY="2.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Выбрать файл" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children>
+         <VBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </VBox.margin>
+      </AnchorPane>
+      <AnchorPane prefHeight="35.0" prefWidth="30.0">
+         <children>
+            <Label layoutY="6.0" prefHeight="35.0" prefWidth="300.0" text="папка для сохранения не указана" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="0.0" />
+            <Button layoutX="450.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Выбрать место сохранения" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children>
+         <VBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </VBox.margin>
+      </AnchorPane>
+      <AnchorPane prefHeight="35.0" prefWidth="400.0">
+         <children>
+            <Button layoutX="450.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="166.0" text="Конвертировать" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children>
+         <VBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </VBox.margin>
+      </AnchorPane>
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</VBox>
