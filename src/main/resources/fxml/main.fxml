@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.layout.*?>
@@ -8,8 +9,8 @@
    <children>
       <AnchorPane prefHeight="35.0" prefWidth="30.0">
          <children>
-            <Label layoutX="20.0" layoutY="6.0" prefHeight="35.0" prefWidth="300.0" text="Язык" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="0.0" />
-            <ComboBox layoutX="450.0" prefHeight="35.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <Label fx:id="txtLanguage" layoutX="20.0" layoutY="6.0" prefHeight="35.0" prefWidth="300.0" text="%txt_language" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="0.0" />
+            <ComboBox fx:id="boxLanguage" layoutX="450.0" prefHeight="35.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
          <VBox.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -17,8 +18,8 @@
       </AnchorPane>
       <AnchorPane prefHeight="35.0" prefWidth="30.0">
          <children>
-            <Label prefHeight="35.0" prefWidth="300.0" text="Формат входного файла" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="0.0" />
-            <ComboBox layoutX="450.0" prefHeight="35.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <Label fx:id="txtInputFormat" prefHeight="35.0" prefWidth="300.0" text="%txt_input_format" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="0.0" />
+            <ComboBox fx:id="boxInputFormat" layoutX="450.0" prefHeight="35.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
          <VBox.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -26,8 +27,8 @@
       </AnchorPane>
       <AnchorPane prefHeight="35.0" prefWidth="30.0">
          <children>
-            <Label layoutY="6.0" prefHeight="35.0" prefWidth="300.0" text="Формат выходного файла" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="0.0" />
-            <ComboBox layoutX="450.0" prefHeight="35.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <Label fx:id="txtOutputFormat" layoutY="6.0" prefHeight="35.0" prefWidth="300.0" text="%txt_output_format" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="0.0" />
+            <ComboBox fx:id="boxOutputFormat" layoutX="450.0" prefHeight="35.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
          <VBox.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -35,8 +36,8 @@
       </AnchorPane>
       <AnchorPane prefHeight="35.0" prefWidth="30.0">
          <children>
-            <Label layoutX="10.0" layoutY="6.0" prefHeight="35.0" prefWidth="300.0" text="файл не выбран" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="0.0" />
-            <Button layoutX="322.0" layoutY="2.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Выбрать файл" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <Label fx:id="txtDirectoryIn" layoutX="10.0" layoutY="6.0" prefHeight="35.0" prefWidth="300.0" text="%txt_directory_in" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="0.0" />
+            <Button fx:id="btnSelectIn" layoutX="322.0" layoutY="2.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="%btn_select_in" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
          <VBox.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -44,8 +45,8 @@
       </AnchorPane>
       <AnchorPane prefHeight="35.0" prefWidth="30.0">
          <children>
-            <Label layoutY="6.0" prefHeight="35.0" prefWidth="300.0" text="папка для сохранения не указана" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="0.0" />
-            <Button layoutX="450.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="Выбрать место сохранения" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <Label fx:id="txtDirectoryOut" layoutY="6.0" prefHeight="35.0" prefWidth="300.0" text="%txt_directory_out" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="0.0" />
+            <Button fx:id="btnSelectOut" layoutX="450.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" text="%btn_select_out" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
          <VBox.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -53,7 +54,7 @@
       </AnchorPane>
       <AnchorPane prefHeight="35.0" prefWidth="400.0">
          <children>
-            <Button layoutX="450.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="166.0" text="Конвертировать" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <Button fx:id="btnConvert" layoutX="450.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="166.0" text="%btn_convert" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
          <VBox.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
