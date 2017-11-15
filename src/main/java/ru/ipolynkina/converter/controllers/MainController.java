@@ -1,12 +1,13 @@
 package ru.ipolynkina.converter.controllers;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import ru.ipolynkina.converter.beans.FileFormat;
+import ru.ipolynkina.converter.beans.Language;
+import ru.ipolynkina.converter.start.Main;
 
 import java.net.URL;
 import java.util.Locale;
@@ -14,11 +15,17 @@ import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
 
-    private ObservableList<String> languages = FXCollections.observableArrayList();
     private ResourceBundle resourceBundle;
+    private FileFormat allFormats;
 
     @FXML
     private ComboBox<String> boxLanguage;
+
+    @FXML
+    private ComboBox<String> boxInputFormat;
+
+    @FXML
+    private ComboBox<String> boxOutputFormat;
 
     @FXML
     private Label txtLanguage;
@@ -49,13 +56,30 @@ public class MainController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         resourceBundle = resources;
 
-        languages.addAll("en", "ru");
-        boxLanguage.getItems().setAll(languages);
-        boxLanguage.setValue(languages.get(0));
-
+        Language languages = Main.getContext().getBean(Language.class);
+        boxLanguage.getItems().setAll(languages.getLanguages());
+        boxLanguage.setValue(languages.getLanguages().get(0));
         boxLanguage.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
             if(!oldValue.equals(newValue)) {
-                loadLang(new Locale(languages.get(newValue.intValue())));
+                loadLang(new Locale(languages.getLanguageByIndex(newValue.intValue())));
+            }
+        });
+
+        allFormats = Main.getContext().getBean(FileFormat.class);
+        FileFormat inputFormat = new FileFormat(allFormats.getFormats());
+        boxInputFormat.getItems().setAll(inputFormat.getFormats());
+        boxInputFormat.setValue(inputFormat.getFormatByIndex(0));
+
+        FileFormat outputFormat = new FileFormat(allFormats.excludeFormat(boxInputFormat.getValue()));
+        boxOutputFormat.getItems().setAll(outputFormat.getFormats());
+        boxOutputFormat.setValue(outputFormat.getFormatByIndex(0));
+
+        boxInputFormat.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            if(!oldValue.equals(newValue)) {
+                outputFormat.clear();
+                outputFormat.addAllFormats(allFormats.excludeFormat(boxInputFormat.getValue()));
+                boxOutputFormat.getItems().setAll(outputFormat.getFormats());
+                boxOutputFormat.setValue(outputFormat.getFormatByIndex(0));
             }
         });
     }
