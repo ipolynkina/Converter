@@ -5,11 +5,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import ru.ipolynkina.converter.beans.FileFormat;
 import ru.ipolynkina.converter.beans.Language;
 import ru.ipolynkina.converter.start.Main;
 
+import java.io.File;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -17,6 +23,8 @@ public class MainController implements Initializable {
 
     private ResourceBundle resourceBundle;
     private FileFormat allFormats;
+    private Path pathIn;
+    private Path pathOut;
 
     @FXML
     private ComboBox<String> boxLanguage;
@@ -80,6 +88,31 @@ public class MainController implements Initializable {
                 outputFormat.addAllFormats(allFormats.excludeFormat(boxInputFormat.getValue()));
                 boxOutputFormat.getItems().setAll(outputFormat.getFormats());
                 boxOutputFormat.setValue(outputFormat.getFormatByIndex(0));
+                txtDirectoryIn.setText(resourceBundle.getString("txt_directory_in"));
+            }
+        });
+
+        btnSelectIn.setOnAction(event -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle(resourceBundle.getString("title_open_document"));
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter(boxInputFormat.getValue(), "*." + boxInputFormat.getValue())
+            );
+
+            File file = fileChooser.showOpenDialog(new Stage());
+            if(file != null) {
+                pathIn = Paths.get(file.toString());
+                txtDirectoryIn.setText(pathIn.getFileName().toString());
+            }
+        });
+
+        btnSelectOut.setOnAction(event -> {
+            DirectoryChooser directoryChooser = new DirectoryChooser();
+            directoryChooser.setTitle(resourceBundle.getString("title_open_directory"));
+            File file = directoryChooser.showDialog(new Stage());
+            if(file != null) {
+                pathOut = Paths.get(file.toString());
+                txtDirectoryOut.setText(pathOut.getFileName().toString());
             }
         });
     }
@@ -90,8 +123,19 @@ public class MainController implements Initializable {
         txtLanguage.setText(resourceBundle.getString("txt_language"));
         txtInputFormat.setText(resourceBundle.getString("txt_input_format"));
         txtOutputFormat.setText(resourceBundle.getString("txt_output_format"));
-        txtDirectoryIn.setText(resourceBundle.getString("txt_directory_in"));
-        txtDirectoryOut.setText(resourceBundle.getString("txt_directory_out"));
+
+        if(pathIn == null) {
+            txtDirectoryIn.setText(resourceBundle.getString("txt_directory_in"));
+        } else {
+            txtDirectoryIn.setText(pathIn.getFileName().toString());
+        }
+
+        if(pathOut == null) {
+            txtDirectoryOut.setText(resourceBundle.getString("txt_directory_out"));
+        } else {
+            txtDirectoryOut.setText(pathOut.getFileName().toString());
+        }
+
 
         btnSelectIn.setText(resourceBundle.getString("btn_select_in"));
         btnSelectOut.setText(resourceBundle.getString("btn_select_out"));
