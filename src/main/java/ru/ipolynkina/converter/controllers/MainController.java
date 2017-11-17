@@ -10,12 +10,12 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import ru.ipolynkina.converter.beans.FileFormat;
 import ru.ipolynkina.converter.beans.Language;
+import ru.ipolynkina.converter.converters.Converter;
+import ru.ipolynkina.converter.converters.ConverterStrategy;
 import ru.ipolynkina.converter.start.Main;
 
 import java.io.File;
 import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -23,8 +23,8 @@ public class MainController implements Initializable {
 
     private ResourceBundle resourceBundle;
     private FileFormat allFormats;
-    private Path pathIn;
-    private Path pathOut;
+    private File fileIn;
+    private File fileOut;
 
     @FXML
     private ComboBox<String> boxLanguage;
@@ -99,22 +99,37 @@ public class MainController implements Initializable {
                     new FileChooser.ExtensionFilter(boxInputFormat.getValue(), "*." + boxInputFormat.getValue())
             );
 
-            File file = fileChooser.showOpenDialog(new Stage());
-            if(file != null) {
-                pathIn = Paths.get(file.toString());
-                txtDirectoryIn.setText(pathIn.getFileName().toString());
+            fileIn = fileChooser.showOpenDialog(new Stage());
+            if(fileIn != null) {
+                txtDirectoryIn.setText(fileIn.getName());
             }
         });
 
         btnSelectOut.setOnAction(event -> {
             DirectoryChooser directoryChooser = new DirectoryChooser();
             directoryChooser.setTitle(resourceBundle.getString("title_open_directory"));
-            File file = directoryChooser.showDialog(new Stage());
-            if(file != null) {
-                pathOut = Paths.get(file.toString());
-                txtDirectoryOut.setText(pathOut.getFileName().toString());
+            fileOut = directoryChooser.showDialog(new Stage());
+            if(fileOut != null) {
+                txtDirectoryOut.setText(fileOut.getName());
             }
         });
+
+        // TODO если файл не указан - не конвертировать
+        btnConvert.setOnAction(event -> {
+            try {
+                Converter converter = new ConverterStrategy().choiceOfConverterStrategy(
+                        boxInputFormat.getValue(), boxOutputFormat.getValue(), fileIn, fileOut);
+                converter.convert();
+            } catch (Exception exc) {
+                exc.printStackTrace();
+            }
+        });
+    }
+
+    private void setVisibleButtons(boolean isVisible) {
+        btnSelectIn.setVisible(isVisible);
+        btnSelectOut.setVisible(isVisible);
+        btnConvert.setVisible(isVisible);
     }
 
     private void loadLang(Locale locale) {
@@ -124,18 +139,13 @@ public class MainController implements Initializable {
         txtInputFormat.setText(resourceBundle.getString("txt_input_format"));
         txtOutputFormat.setText(resourceBundle.getString("txt_output_format"));
 
-        if(pathIn == null) {
+        if(fileIn == null) {
             txtDirectoryIn.setText(resourceBundle.getString("txt_directory_in"));
-        } else {
-            txtDirectoryIn.setText(pathIn.getFileName().toString());
         }
 
-        if(pathOut == null) {
+        if(fileOut == null) {
             txtDirectoryOut.setText(resourceBundle.getString("txt_directory_out"));
-        } else {
-            txtDirectoryOut.setText(pathOut.getFileName().toString());
         }
-
 
         btnSelectIn.setText(resourceBundle.getString("btn_select_in"));
         btnSelectOut.setText(resourceBundle.getString("btn_select_out"));
