@@ -1,15 +1,14 @@
 package ru.ipolynkina.converter.converters.parsers;
 
-import ru.ipolynkina.converter.converters.propertys.Property;
-
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 public abstract class Parser {
 
     private File inputFile;
-    private List<Property> properties;
+    private List<LinkedHashMap<String, String>> properties;
 
     public Parser(File inputFile) {
         this.inputFile = inputFile;
@@ -20,11 +19,11 @@ public abstract class Parser {
         return inputFile;
     }
 
-    public List<Property> getProperties() {
+    public List<LinkedHashMap<String, String>> getProperties() {
         return properties;
     }
 
-    public void addProperty(Property property) {
+    public void addProperty(LinkedHashMap<String, String> property) {
         properties.add(property);
     }
 

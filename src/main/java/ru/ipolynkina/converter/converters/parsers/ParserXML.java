@@ -3,10 +3,10 @@ package ru.ipolynkina.converter.converters.parsers;
 import org.jdom2.Attribute;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
-import ru.ipolynkina.converter.converters.propertys.Property;
 
 import java.io.File;
 import java.util.List;
+import java.util.LinkedHashMap;
 
 public class ParserXML extends Parser {
 
@@ -20,18 +20,18 @@ public class ParserXML extends Parser {
         List<Element> elements = rootElement.getChildren();
 
         for(Element element : elements) {
-            Property property = new Property();
+            LinkedHashMap<String, String> property = new LinkedHashMap<>();
 
             List<Attribute> attributes = element.getAttributes();
             if(attributes.size() != 0) {
                 for(Attribute attribute : attributes) {
-                    property.addProperties(attribute.getName(), attribute.getValue());
+                    property.put(attribute.getName(), attribute.getValue());
                 }
             }
 
-            List<Element> children = element.getChildren();
-            for(Element child : children) {
-                property.addProperties(child.getName(), child.getValue());
+            List<Element> childrenElements = element.getChildren();
+            for(Element childElement : childrenElements) {
+                property.put(childElement.getName(), childElement.getValue());
             }
 
             addProperty(property);

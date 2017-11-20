@@ -1,9 +1,8 @@
 package ru.ipolynkina.converter.converters.writers;
 
-import ru.ipolynkina.converter.converters.propertys.Property;
-
 import java.io.File;
 import java.util.List;
+import java.util.LinkedHashMap;
 
 public class WriterDefault extends Writer {
 
@@ -12,7 +11,7 @@ public class WriterDefault extends Writer {
     }
 
     @Override
-    public void write(List<Property> properties) throws Exception {
+    public void write(List<LinkedHashMap<String, String>> properties) throws Exception {
         System.out.println("default writer...");
         System.out.println(properties);
     }

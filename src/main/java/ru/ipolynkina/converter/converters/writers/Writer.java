@@ -1,9 +1,8 @@
 package ru.ipolynkina.converter.converters.writers;
 
-import ru.ipolynkina.converter.converters.propertys.Property;
-
 import java.io.File;
 import java.util.List;
+import java.util.LinkedHashMap;
 
 public abstract class Writer {
 
@@ -17,5 +16,5 @@ public abstract class Writer {
         return outputFile;
     }
 
-    public abstract void write(List<Property> properties) throws Exception;
+    public abstract void write(List<LinkedHashMap<String, String>> properties) throws Exception;
 }
