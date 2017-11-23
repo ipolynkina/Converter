@@ -19,6 +19,7 @@ public class WriterXLSX extends Writer {
         super(outputFile);
     }
 
+    // TODO несколько методов?
     @Override
     public void write(List<LinkedHashMap<String, String>> properties) throws Exception {
         FileInputStream fis = new FileInputStream("src/main/resources/temp_xlsx/template.xlsx");
