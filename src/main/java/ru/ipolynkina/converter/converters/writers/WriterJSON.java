@@ -25,6 +25,7 @@ public class WriterJSON extends Writer {
                 generator.writeStringField(pair.getKey(), pair.getValue());
             }
             generator.writeEndObject();
+            generator.writeRaw("\n");
         }
         generator.close();
    }

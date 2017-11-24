@@ -1,31 +1,40 @@
 package ru.ipolynkina.converter.converters;
 
 import ru.ipolynkina.converter.converters.parsers.*;
-import ru.ipolynkina.converter.converters.writers.Writer;
-import ru.ipolynkina.converter.converters.writers.WriterDefault;
-import ru.ipolynkina.converter.converters.writers.WriterJSON;
-import ru.ipolynkina.converter.converters.writers.WriterXLSX;
+import ru.ipolynkina.converter.converters.writers.*;
 
 import java.io.File;
 
-// TODO на 2 метода + имя файла?
 public class ConverterStrategy {
 
     public Converter choiceOfConverterStrategy(String formatIn, String formatOut, File fileIn, File fileOut) throws Exception {
-        Parser parser;
-        if(formatIn.equals("xml")) parser = new ParserXML(fileIn);
-        else if(formatIn.equals("xlsx")) parser = new ParserXLSX(fileIn);
-        else if(formatIn.equals("json")) parser = new ParserJSON(fileIn);
-        else parser = new ParserDefault(fileIn);
+        Parser parser = choiceParser(formatIn, fileIn);
+        File fileOutAbsoluteDir = createOutputFile(fileIn, fileOut, formatOut);
+        Writer writer = choiceWriter(formatOut, fileOutAbsoluteDir);
+        return new Converter(parser, writer);
+    }
 
+    private Parser choiceParser(String formatIn, File fileIn) {
+        switch(formatIn) {
+            case "json" : return new ParserJSON(fileIn);
+            case "xml"  : return new ParserXML(fileIn);
+            case "xlsx" : return new ParserXLSX(fileIn);
+            default: return new ParserDefault(fileIn);
+        }
+    }
+
+    private Writer choiceWriter(String formatOut, File fileOut) {
+        switch(formatOut) {
+            case "json" : return new WriterJSON(fileOut);
+            case "xml"  : return new WriterXML(fileOut);
+            case "xlsx" : return new WriterXLSX(fileOut);
+            default: return new WriterDefault(fileOut);
+        }
+    }
+
+    private File createOutputFile(File fileIn, File fileOut, String formatOut) {
         String pathOut = fileOut + "\\" + fileIn.getName();
         int dot = pathOut.indexOf('.');
-        File file = new File(pathOut.substring(0, dot + 1) + formatOut);
-
-        Writer writer;
-        if(formatOut.equals("xlsx")) writer = new WriterXLSX(file);
-        else if(formatOut.equals("json")) writer = new WriterJSON(file);
-        else writer = new WriterDefault(file);
-        return new Converter(parser, writer);
+        return new File(pathOut.substring(0, dot + 1) + formatOut);
     }
 }
