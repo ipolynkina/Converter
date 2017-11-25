@@ -35,8 +35,13 @@ public abstract class ParserExcel extends Parser {
         int indexCell = 0;
         while(true) {
             try {
-                String title = wb.getSheetAt(0).getRow(0).getCell(indexCell).getStringCellValue();
-                String value = wb.getSheetAt(0).getRow(indexRow).getCell(indexCell).getStringCellValue();
+                String title = readData(wb, 0, indexCell);
+                String value;
+                try {
+                    value = readData(wb, indexRow, indexCell);
+                } catch (NullPointerException exc) {
+                    value = ""; // ignore it. no value
+                }
                 property.put(title, value);
                 ++indexCell;
             } catch (NullPointerException exc) {
@@ -48,10 +53,20 @@ public abstract class ParserExcel extends Parser {
 
     private boolean nextRowExist(Workbook wb, int indexRow) {
         try {
-            String str = wb.getSheetAt(0).getRow(indexRow).getCell(0).getStringCellValue();
+            readData(wb, indexRow, 0);
             return true;
         } catch (NullPointerException exc) {
             return false;
         }
+    }
+
+    private String readData(Workbook wb, int indexRow, int indexCell) {
+        String data;
+        try {
+            data = wb.getSheetAt(0). getRow(indexRow).getCell(indexCell).getStringCellValue();
+        } catch(IllegalStateException exc) {
+            data = String.valueOf(wb.getSheetAt(0).getRow(indexRow).getCell(indexCell).getNumericCellValue());
+        }
+        return data;
     }
 }

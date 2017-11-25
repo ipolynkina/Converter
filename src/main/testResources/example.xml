@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <object Id="15.0" Name="Andrei" Address="Krasnodar" Age="28.0" Weight="85.5" HasAFamily="true" Points="155.0" />
+  <object Id="86.0" Name="Max" Address="Moscow" Age="18.0" Weight="70.6" HasAFamily="false" Points="148.0" />
+  <object Id="59.0" Name="Anna" Address="Volgograd" Age="24.0" Weight="60.4" HasAFamily="false" Points="136.0" />
+  <object Id="6.0" Name="David" Address="Tambow" Age="35.0" Weight="90.1" HasAFamily="" Points="120.0" />
+  <object Id="130.0" Name="Oksana" Address="Vladimir" Age="20.0" Weight="59.9" HasAFamily="true" Points="119.0" />
+</root>
