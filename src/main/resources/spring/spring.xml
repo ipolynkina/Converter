@@ -18,6 +18,7 @@
             <list>
                 <value>json</value>
                 <value>xml</value>
+                <value>xls</value>
                 <value>xlsx</value>
             </list>
         </constructor-arg>

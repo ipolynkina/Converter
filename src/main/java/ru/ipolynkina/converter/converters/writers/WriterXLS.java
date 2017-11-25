@@ -1,25 +1,25 @@
 package ru.ipolynkina.converter.converters.writers;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public class WriterXLSX extends WriterExcel {
+public class WriterXLS extends WriterExcel {
 
-    public WriterXLSX(File outputFile) {
+    public WriterXLS(File outputFile) {
         super(outputFile);
     }
 
     @Override
     public String getFileName() {
-        return "src/main/resources/excel/template.xlsx";
+        return "src/main/resources/excel/template.xls";
     }
 
     @Override
     public Workbook getWorkbook(FileInputStream fis) throws IOException {
-        return new XSSFWorkbook(fis);
+        return new HSSFWorkbook(fis);
     }
 }

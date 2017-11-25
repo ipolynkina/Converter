@@ -18,6 +18,7 @@ public class ConverterStrategy {
         switch(formatIn) {
             case "json" : return new ParserJSON(fileIn);
             case "xml"  : return new ParserXML(fileIn);
+            case "xls" : return new ParserXLS(fileIn);
             case "xlsx" : return new ParserXLSX(fileIn);
             default: return new ParserDefault(fileIn);
         }
@@ -27,6 +28,7 @@ public class ConverterStrategy {
         switch(formatOut) {
             case "json" : return new WriterJSON(fileOut);
             case "xml"  : return new WriterXML(fileOut);
+            case "xls" : return new WriterXLS(fileOut);
             case "xlsx" : return new WriterXLSX(fileOut);
             default: return new WriterDefault(fileOut);
         }
