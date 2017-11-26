@@ -2,9 +2,8 @@ package ru.ipolynkina.converter.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -59,7 +58,6 @@ public class MainController implements Initializable {
     @FXML
     private Button btnConvert;
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         resourceBundle = resources;
@@ -88,6 +86,7 @@ public class MainController implements Initializable {
                 outputFormat.addAllFormats(allFormats.excludeFormat(boxInputFormat.getValue()));
                 boxOutputFormat.getItems().setAll(outputFormat.getFormats());
                 boxOutputFormat.setValue(outputFormat.getFormatByIndex(0));
+                fileIn = null;
                 txtDirectoryIn.setText(resourceBundle.getString("txt_directory_in"));
             }
         });
@@ -114,22 +113,69 @@ public class MainController implements Initializable {
             }
         });
 
-        // TODO если файл не указан - не конвертировать
         btnConvert.setOnAction(event -> {
             try {
-                Converter converter = new ConverterStrategy().choiceOfConverterStrategy(
-                        boxInputFormat.getValue(), boxOutputFormat.getValue(), fileIn, fileOut);
-                converter.convert();
+                if(fileIn != null && fileOut != null) {
+                    Converter converter = new ConverterStrategy().choiceOfConverterStrategy(
+                            boxInputFormat.getValue(), boxOutputFormat.getValue(), fileIn, fileOut);
+                    converter.convert();
+                    showOkDialog(resourceBundle.getString("ok_dialog_title"),
+                            resourceBundle.getString("ok_dialog_header"),
+                            resourceBundle.getString("ok_dialog_context"));
+                }
+
+                if(fileIn == null) {
+                    showErrorDialog(resourceBundle.getString("error_dialog_title"),
+                            resourceBundle.getString("error_header_for_file"),
+                            resourceBundle.getString("error_context_for_file"));
+                }
+
+                if(fileOut == null) {
+                    showErrorDialog(resourceBundle.getString("error_dialog_title"),
+                            resourceBundle.getString("error_header_for_directory"),
+                            resourceBundle.getString("error_context_for_directory"));
+                }
             } catch (Exception exc) {
+                showExceptionDialog(resourceBundle.getString("error_dialog_title"),
+                        resourceBundle.getString("exception_title"),
+                        resourceBundle.getString("exception_context"),
+                        exc.toString());
                 exc.printStackTrace();
             }
         });
     }
 
-    private void setVisibleButtons(boolean isVisible) {
-        btnSelectIn.setVisible(isVisible);
-        btnSelectOut.setVisible(isVisible);
-        btnConvert.setVisible(isVisible);
+    private void showOkDialog(String title, String header, String context) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(context);
+        alert.showAndWait();
+    }
+
+    private void showErrorDialog(String title, String header, String context) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(context);
+        alert.setContentText(header);
+        alert.showAndWait();
+    }
+
+    private void showExceptionDialog(String title, String header, String context, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(context);
+
+        TextArea textArea = new TextArea(message);
+        textArea.setEditable(false);
+        textArea.setWrapText(true);
+
+        GridPane expContent = new GridPane();
+        expContent.add(textArea, 0, 0);
+
+        alert.getDialogPane().setExpandableContent(expContent);
+        alert.showAndWait();
     }
 
     private void loadLang(Locale locale) {

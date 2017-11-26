@@ -82,6 +82,7 @@ public class MockObject {
             for(Map.Entry<String, String> entry : testObject.entrySet()) {
                 if(!property.containsKey(entry.getKey()) || (!property.containsValue(entry.getValue()))) {
                     printErrorMessage(property, testObject);
+                    return false;
                 }
             }
             ++indexRow;
