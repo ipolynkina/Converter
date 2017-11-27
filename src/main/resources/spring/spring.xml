@@ -24,4 +24,8 @@
         </constructor-arg>
     </bean>
 
+    <bean id="property" class="ru.ipolynkina.converter.beans.Property"
+        init-method="initDirectory" destroy-method="saveDirectory">
+    </bean>
+
 </beans>

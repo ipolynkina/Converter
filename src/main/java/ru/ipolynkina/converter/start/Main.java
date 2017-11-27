@@ -17,11 +17,16 @@ import java.util.ResourceBundle;
 
 public class Main extends Application {
 
+    private static ConfigurableApplicationContext ctx = new ClassPathXmlApplicationContext("spring/spring.xml");
+
     public static void main(String[] args) {
         launch();
+        ctx.close();
     }
 
-    private static ConfigurableApplicationContext ctx = new ClassPathXmlApplicationContext("spring/spring.xml");
+    public static ConfigurableApplicationContext getContext() {
+        return ctx;
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -57,9 +62,5 @@ public class Main extends Application {
         });
 
         primaryStage.show();
-    }
-
-    public static ConfigurableApplicationContext getContext() {
-        return ctx;
     }
 }

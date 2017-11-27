@@ -9,6 +9,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import ru.ipolynkina.converter.beans.FileFormat;
 import ru.ipolynkina.converter.beans.Language;
+import ru.ipolynkina.converter.beans.Property;
 import ru.ipolynkina.converter.converters.Converter;
 import ru.ipolynkina.converter.converters.ConverterStrategy;
 import ru.ipolynkina.converter.start.Main;
@@ -93,6 +94,7 @@ public class MainController implements Initializable {
 
         btnSelectIn.setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
+            fileChooser.setInitialDirectory(new File(Property.getDirIn()));
             fileChooser.setTitle(resourceBundle.getString("title_open_document"));
             fileChooser.getExtensionFilters().add(
                     new FileChooser.ExtensionFilter(boxInputFormat.getValue(), "*." + boxInputFormat.getValue())
@@ -101,15 +103,24 @@ public class MainController implements Initializable {
             fileIn = fileChooser.showOpenDialog(new Stage());
             if(fileIn != null) {
                 txtDirectoryIn.setText(fileIn.getName());
+                Property.setDirIn(fileIn.getParent());
+            } else {
+                fileIn = null;
+                txtDirectoryIn.setText(resourceBundle.getString("txt_directory_in"));
             }
         });
 
         btnSelectOut.setOnAction(event -> {
             DirectoryChooser directoryChooser = new DirectoryChooser();
+            directoryChooser.setInitialDirectory(new File(Property.getDirOut()));
             directoryChooser.setTitle(resourceBundle.getString("title_open_directory"));
             fileOut = directoryChooser.showDialog(new Stage());
             if(fileOut != null) {
                 txtDirectoryOut.setText(fileOut.getName());
+                Property.setDirOut(fileOut.getAbsolutePath());
+            } else {
+                fileOut = null;
+                txtDirectoryOut.setText(resourceBundle.getString("txt_directory_out"));
             }
         });
 
