@@ -1,5 +1,7 @@
 package ru.ipolynkina.converter.controllers;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -20,6 +22,8 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
+
+    private static final Logger LOGGER = LogManager.getLogger(MainController.class.getSimpleName());
 
     private ResourceBundle resourceBundle;
     private FileFormat allFormats;
@@ -80,6 +84,9 @@ public class MainController implements Initializable {
         FileFormat outputFormat = new FileFormat(allFormats.excludeFormat(boxInputFormat.getValue()));
         boxOutputFormat.getItems().setAll(outputFormat.getFormats());
         boxOutputFormat.setValue(outputFormat.getFormatByIndex(0));
+        boxOutputFormat.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            LOGGER.info("format out: select value = " + boxOutputFormat.getValue());
+        });
 
         boxInputFormat.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
             if(!oldValue.equals(newValue)) {
@@ -89,6 +96,8 @@ public class MainController implements Initializable {
                 boxOutputFormat.setValue(outputFormat.getFormatByIndex(0));
                 fileIn = null;
                 txtDirectoryIn.setText(resourceBundle.getString("txt_directory_in"));
+                LOGGER.info("format in: select value = " + boxInputFormat.getValue());
+                LOGGER.info("format out: select value = " + boxOutputFormat.getValue());
             }
         });
 
@@ -104,9 +113,11 @@ public class MainController implements Initializable {
             if(fileIn != null) {
                 txtDirectoryIn.setText(fileIn.getName());
                 Property.setDirIn(fileIn.getParent());
+                LOGGER.info("file in: select file = " + fileIn.getName());
             } else {
                 fileIn = null;
                 txtDirectoryIn.setText(resourceBundle.getString("txt_directory_in"));
+                LOGGER.info("file in: select file = null");
             }
         });
 
@@ -118,9 +129,12 @@ public class MainController implements Initializable {
             if(fileOut != null) {
                 txtDirectoryOut.setText(fileOut.getName());
                 Property.setDirOut(fileOut.getAbsolutePath());
+                LOGGER.info("file out: select file = " + fileOut.getName());
             } else {
                 fileOut = null;
                 txtDirectoryOut.setText(resourceBundle.getString("txt_directory_out"));
+                LOGGER.info("file out: select file = null");
+
             }
         });
 
@@ -133,24 +147,28 @@ public class MainController implements Initializable {
                     showOkDialog(resourceBundle.getString("ok_dialog_title"),
                             resourceBundle.getString("ok_dialog_header"),
                             resourceBundle.getString("ok_dialog_context"));
+                    LOGGER.info("conversion was successful");
                 }
 
                 if(fileIn == null) {
                     showErrorDialog(resourceBundle.getString("error_dialog_title"),
                             resourceBundle.getString("error_header_for_file"),
                             resourceBundle.getString("error_context_for_file"));
+                    LOGGER.info("show error dialog: file in not found");
                 }
 
                 if(fileOut == null) {
                     showErrorDialog(resourceBundle.getString("error_dialog_title"),
                             resourceBundle.getString("error_header_for_directory"),
                             resourceBundle.getString("error_context_for_directory"));
+                    LOGGER.info("show error dialog: file out not found");
                 }
             } catch (Exception exc) {
                 showExceptionDialog(resourceBundle.getString("error_dialog_title"),
                         resourceBundle.getString("exception_title"),
                         resourceBundle.getString("exception_context"),
                         exc.toString());
+                LOGGER.warn(exc.toString());
                 exc.printStackTrace();
             }
         });
@@ -191,6 +209,7 @@ public class MainController implements Initializable {
 
     private void loadLang(Locale locale) {
         resourceBundle = ResourceBundle.getBundle("bundles.Locale", locale);
+        LOGGER.info("set locale: " + resourceBundle.getLocale());
 
         txtLanguage.setText(resourceBundle.getString("txt_language"));
         txtInputFormat.setText(resourceBundle.getString("txt_input_format"));
