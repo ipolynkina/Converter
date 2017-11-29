@@ -22,11 +22,7 @@ public class FileFormat {
         return "";
     }
 
-    public void addAllFormats(List<String> f) {
-        formats.addAll(f);
-    }
-
-    public List<String> excludeFormat(String format) {
+    public List<String> getFormatsWithout(String format) {
         List<String> newFormats = new ArrayList<>();
         for(String f : formats) {
             if(!f.equals(format)) {
@@ -34,6 +30,10 @@ public class FileFormat {
             }
         }
         return newFormats;
+    }
+
+    public void addAllFormats(List<String> f) {
+        formats.addAll(f);
     }
 
     public void clear() {

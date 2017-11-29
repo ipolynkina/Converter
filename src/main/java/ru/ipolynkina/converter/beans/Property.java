@@ -10,7 +10,7 @@ public class Property {
     private static String dirIn;
     private static String dirOut;
 
-    private Property(){};
+    private Property(){}
 
     public static String getDirIn() {
         return dirIn;
@@ -27,7 +27,7 @@ public class Property {
     public static void setDirOut(String directoryOut) {
         dirOut = directoryOut;
     }
-    
+
     private static void initDirectory() {
         String homeDir = System.getProperty("user.home");
         Properties properties = new Properties();

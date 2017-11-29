@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -14,6 +13,7 @@ import ru.ipolynkina.converter.beans.Language;
 import ru.ipolynkina.converter.beans.Property;
 import ru.ipolynkina.converter.converters.Converter;
 import ru.ipolynkina.converter.converters.ConverterStrategy;
+import ru.ipolynkina.converter.dialogs.Dialog;
 import ru.ipolynkina.converter.start.Main;
 
 import java.io.File;
@@ -73,6 +73,7 @@ public class MainController implements Initializable {
         boxLanguage.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
             if(!oldValue.equals(newValue)) {
                 loadLang(new Locale(languages.getLanguageByIndex(newValue.intValue())));
+                LOGGER.info("set locale: " + resourceBundle.getLocale());
             }
         });
 
@@ -81,7 +82,7 @@ public class MainController implements Initializable {
         boxInputFormat.getItems().setAll(inputFormat.getFormats());
         boxInputFormat.setValue(inputFormat.getFormatByIndex(0));
 
-        FileFormat outputFormat = new FileFormat(allFormats.excludeFormat(boxInputFormat.getValue()));
+        FileFormat outputFormat = new FileFormat(allFormats.getFormatsWithout(boxInputFormat.getValue()));
         boxOutputFormat.getItems().setAll(outputFormat.getFormats());
         boxOutputFormat.setValue(outputFormat.getFormatByIndex(0));
         boxOutputFormat.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
@@ -91,7 +92,7 @@ public class MainController implements Initializable {
         boxInputFormat.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
             if(!oldValue.equals(newValue)) {
                 outputFormat.clear();
-                outputFormat.addAllFormats(allFormats.excludeFormat(boxInputFormat.getValue()));
+                outputFormat.addAllFormats(allFormats.getFormatsWithout(boxInputFormat.getValue()));
                 boxOutputFormat.getItems().setAll(outputFormat.getFormats());
                 boxOutputFormat.setValue(outputFormat.getFormatByIndex(0));
                 fileIn = null;
@@ -125,6 +126,7 @@ public class MainController implements Initializable {
             DirectoryChooser directoryChooser = new DirectoryChooser();
             directoryChooser.setInitialDirectory(new File(Property.getDirOut()));
             directoryChooser.setTitle(resourceBundle.getString("title_open_directory"));
+
             fileOut = directoryChooser.showDialog(new Stage());
             if(fileOut != null) {
                 txtDirectoryOut.setText(fileOut.getName());
@@ -134,37 +136,37 @@ public class MainController implements Initializable {
                 fileOut = null;
                 txtDirectoryOut.setText(resourceBundle.getString("txt_directory_out"));
                 LOGGER.info("file out: select file = null");
-
             }
         });
 
         btnConvert.setOnAction(event -> {
+            Dialog dialog = new Dialog();
             try {
                 if(fileIn != null && fileOut != null) {
                     Converter converter = new ConverterStrategy().choiceOfConverterStrategy(
                             boxInputFormat.getValue(), boxOutputFormat.getValue(), fileIn, fileOut);
                     converter.convert();
-                    showOkDialog(resourceBundle.getString("ok_dialog_title"),
+                    dialog.showOkDialog(resourceBundle.getString("ok_dialog_title"),
                             resourceBundle.getString("ok_dialog_header"),
                             resourceBundle.getString("ok_dialog_context"));
                     LOGGER.info("conversion was successful");
                 }
 
                 if(fileIn == null) {
-                    showErrorDialog(resourceBundle.getString("error_dialog_title"),
+                    dialog.showErrorDialog(resourceBundle.getString("error_dialog_title"),
                             resourceBundle.getString("error_header_for_file"),
                             resourceBundle.getString("error_context_for_file"));
                     LOGGER.info("show error dialog: file in not found");
                 }
 
                 if(fileOut == null) {
-                    showErrorDialog(resourceBundle.getString("error_dialog_title"),
+                    dialog.showErrorDialog(resourceBundle.getString("error_dialog_title"),
                             resourceBundle.getString("error_header_for_directory"),
                             resourceBundle.getString("error_context_for_directory"));
                     LOGGER.info("show error dialog: file out not found");
                 }
             } catch (Exception exc) {
-                showExceptionDialog(resourceBundle.getString("error_dialog_title"),
+                dialog.showExceptionDialog(resourceBundle.getString("error_dialog_title"),
                         resourceBundle.getString("exception_title"),
                         resourceBundle.getString("exception_context"),
                         exc.toString());
@@ -174,42 +176,8 @@ public class MainController implements Initializable {
         });
     }
 
-    private void showOkDialog(String title, String header, String context) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(context);
-        alert.showAndWait();
-    }
-
-    private void showErrorDialog(String title, String header, String context) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(context);
-        alert.setContentText(header);
-        alert.showAndWait();
-    }
-
-    private void showExceptionDialog(String title, String header, String context, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(context);
-
-        TextArea textArea = new TextArea(message);
-        textArea.setEditable(false);
-        textArea.setWrapText(true);
-
-        GridPane expContent = new GridPane();
-        expContent.add(textArea, 0, 0);
-
-        alert.getDialogPane().setExpandableContent(expContent);
-        alert.showAndWait();
-    }
-
     private void loadLang(Locale locale) {
         resourceBundle = ResourceBundle.getBundle("bundles.Locale", locale);
-        LOGGER.info("set locale: " + resourceBundle.getLocale());
 
         txtLanguage.setText(resourceBundle.getString("txt_language"));
         txtInputFormat.setText(resourceBundle.getString("txt_input_format"));

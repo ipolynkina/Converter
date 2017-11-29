@@ -4,13 +4,13 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.ipolynkina.converter.beans.Language;
+import ru.ipolynkina.converter.dialogs.Dialog;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -47,15 +47,11 @@ public class Main extends Application {
         ContextMenu contextMenu = new ContextMenu();
         MenuItem menuItem = new MenuItem("Info");
         menuItem.setOnAction(event -> {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Info");
-            alert.setHeaderText("version: beta\n");
-            alert.setContentText("release: xx.11.2017\n" +
-                    "author: Irina Polynkina\n" +
-                    "email: irina.polynkina.dex@yandex.ru");
-            alert.showAndWait();
+            new Dialog().showOkDialog("Info", "version: beta",
+                    "release: 29.11.2017\n" +
+                            "author: Irina Polynkina\n" +
+                            "email: irina.polynkina.dex@yandex.ru");
         });
-
         contextMenu.getItems().add(menuItem);
         fxmlMain.setOnContextMenuRequested(event -> {
             contextMenu.show(primaryStage, event.getScreenX(), event.getScreenY());
