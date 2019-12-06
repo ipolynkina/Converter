@@ -14,10 +14,9 @@
     </Appenders>
 
     <Loggers>
-        <Logger name="ru.ipolynkina.converter.converters" level="info" additivity="true"/>
-        <Root level="debug">
+        <Logger name="ru.ipolynkina.converter.converters" level="ERROR" additivity="true"/>
+        <Root level="ERROR">
             <AppenderRef ref="Console" />
-            <AppenderRef ref="File" />
         </Root>
     </Loggers>
 

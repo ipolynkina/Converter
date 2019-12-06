@@ -4,10 +4,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -15,9 +12,7 @@ import java.util.Map;
 
 public abstract class WriterExcel extends Writer {
 
-    public abstract String getFileName();
-
-    public abstract Workbook getWorkbook(FileInputStream fis) throws IOException;
+    public abstract Workbook getWorkbook();
 
     public WriterExcel(File outputFile) {
         super(outputFile);
@@ -25,8 +20,8 @@ public abstract class WriterExcel extends Writer {
 
     @Override
     public void write(List<LinkedHashMap<String, String>> properties) throws Exception {
-        FileInputStream fis = new FileInputStream(getFileName());
-        Workbook wb = getWorkbook(fis);
+        Workbook wb = getWorkbook();
+        wb.createSheet();
 
         Map<String, Integer> titles = new HashMap<>();
         writeData(wb, properties, titles);
@@ -37,7 +32,6 @@ public abstract class WriterExcel extends Writer {
         wb.write(fos);
         fos.close();
         wb.close();
-        fis.close();
     }
 
     private void writeData(Workbook wb, List<LinkedHashMap<String, String>> properties, Map<String, Integer> titles) {

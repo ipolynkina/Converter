@@ -4,9 +4,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-
 public class WriterXLSX extends WriterExcel {
 
     public WriterXLSX(File outputFile) {
@@ -14,12 +11,7 @@ public class WriterXLSX extends WriterExcel {
     }
 
     @Override
-    public String getFileName() {
-        return "src/main/resources/excel/template.xlsx";
-    }
-
-    @Override
-    public Workbook getWorkbook(FileInputStream fis) throws IOException {
-        return new XSSFWorkbook(fis);
+    public Workbook getWorkbook() {
+        return new XSSFWorkbook();
     }
 }
